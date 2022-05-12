@@ -65,10 +65,10 @@ private:
 static llvm::cl::OptionCategory CastMatcherCategory("cast-matcher options");
 
 int main(int argc, const char **argv) {
-	// Ubuntu 20
+    // Ubuntu 20
     auto Parser = llvm::ExitOnError()(CommonOptionsParser::create(argc, argv, CastMatcherCategory));
     // For Ubuntu 18, use the old Clang API to construct the CommonOptionsParser:
-	// CommonOptionsParser Parser(argc, argv, CastMatcherCategory);
+    // CommonOptionsParser Parser(argc, argv, CastMatcherCategory);
 
     ClangTool Tool(Parser.getCompilations(), Parser.getSourcePathList());
     return Tool.run(newFrontendActionFactory<CStyleCheckerFrontendAction>().get());
