@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
 include_directories(${LLVM_INCLUDE_DIRS})
 link_directories(${LLVM_LIBRARY_DIRS})
 
-set(LIBS
+set(CLANG_LIBS
     clangAST
     clangASTMatchers
     clangAnalysis
@@ -33,6 +33,9 @@ set(LIBS
     clangToolingCore
     clangTooling
     clangFormat
+    )
+
+set (LIBS
     LLVMScalarOpts
     LLVMInstCombine
     LLVMTransformUtils
@@ -54,4 +57,11 @@ endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
 add_executable(test_app test/test.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS} ${LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS})
+
+if (${LLVM_LINK_LLVM_DYLIB})
+   target_link_libraries(${PROJECT_NAME} PRIVATE clang-cpp)
+else()
+   target_link_libraries(${PROJECT_NAME} PRIVATE ${CLANG_LIBS})
+endif()
+

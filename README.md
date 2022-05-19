@@ -25,10 +25,12 @@ mkdir ~/compiler-course && cd ~/compiler-course
 git clone https://github.com/llvm/llvm-project
 cd llvm-project/llvm/
 mkdir build && cd build
-cmake ../ -DCMAKE_INSTALL_PREFIX=install \
+cmake ../ -DCMAKE_BUILD_TYPE=Release \
+          -DLLVM_LINK_LLVM_DYLIB=ON \
+          -DCMAKE_INSTALL_PREFIX=install \
           -DLLVM_TARGETS_TO_BUILD=X86 \
           -DLLVM_ENABLE_PROJECTS=clang
-make -j4
+make -j<n>
 make install
 ```
 Сборка может занять длительное время.
@@ -40,7 +42,7 @@ make install
 Скрипт скачает последний релиз и положит его в папку `/tmp/`, также выставит переменную `LLVM_DIR`, поэтому вам больше не нужно ее выставлять во время запуска.
 3. Перейдите в папку с билдом и запустите:
 * `cmake ../`
-* `make -j8`
+* `make -j<n>`
 
 Обратите внимание, что сборка LLVM из исходников потребуется для сдачи дальнейших задач в курсе. Данный `workraround` поможет сдать только текущую задачу.
 
@@ -67,7 +69,7 @@ git checkout -b vasya-pupkin-fiit
 ```
 mkdir build && cd build
 cmake ../ -DLLVM_DIR=~/compiler-course/llvm-project/llvm/build/install/lib/cmake/llvm
-make -j8
+make -j<n>
 ```
 
 В задаче нужно реализовать с помощью интерфейса clang, `tool`, который будет находить в исходном коде программы все приведения типов в стиле си и заменять их на соответсвующий аналог из с++.
